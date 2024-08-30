@@ -1,0 +1,48 @@
+name: Test
+
+on:
+  push:
+    branches:
+      - main
+      - release-[0-9]+.[0-9]+
+  pull_request:
+    branches:
+      - main
+      - release-[0-9]+.[0-9]+
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    name: Lint
+    steps:
+    - name: Checkout the repo
+      uses: actions/checkout@v4
+
+    - name: Set up Go
+      uses: actions/setup-go@v5
+      with:
+        go-version-file: go.mod
+
+    - name: Lint
+      run: |
+        go mod verify
+        make lint
+        make fmt
+        git diff --exit-code
+        make gosec-scan
+
+  test:
+    runs-on: ubuntu-latest
+    name: Test
+    steps:
+      - name: Checkout the repo
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      - name: Build image and test deployment
+        run: |
+          make e2e-test
