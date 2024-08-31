@@ -1,0 +1,17 @@
+# Default values for acm-cli.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# For Openshift clusters, setting to "true" deploys the Route and
+# ConsoleCLIDownload objects and sets up certificates for delivery over HTTPS
+isOpenshift: false
+
+# ConsoleCLIDownload Settings
+# Version to display in the title
+acmVersion: latest
+# Domain to use for the file links
+ingress:
+  domain: example.com
+
+# Deployment settings
+imagePullPolicy: Never
