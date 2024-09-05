@@ -1,0 +1,42 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  labels:
+    component: acm-cli-downloads
+  name: acm-cli-downloads
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: acm-cli-downloads
+  template:
+    metadata:
+      labels:
+        component: acm-cli-downloads
+    spec:
+      containers:
+        - name: acm-cli-downloads
+          image: quay.io/stolostron/acm-cli:latest
+          imagePullPolicy: {{ .Values.imagePullPolicy }}
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "10m"
+          ports:
+      {{- if not .Values.isOpenshift }}
+            - containerPort: 8080
+              name: downloads
+              protocol: TCP
+      {{- else }}
+            - containerPort: 8443
+              name: downloads
+              protocol: TCP
+          volumeMounts:
+            - mountPath: "/var/run/acm-cli-cert"
+              name: acm-cli-cert
+              readOnly: true
+      volumes:
+        - name: acm-cli-cert
+          secret:
+            secretName: acm-cli-cert
+      {{- end }}

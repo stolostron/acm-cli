@@ -43,6 +43,10 @@ jobs:
         with:
           go-version-file: go.mod
 
-      - name: Build image and test deployment
+      - name: Build image
+        run: |
+          make build-image
+
+      - name: Test deployment
         run: |
           make e2e-test
