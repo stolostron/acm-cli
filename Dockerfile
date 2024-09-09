@@ -23,6 +23,9 @@ RUN cd policy-generator-plugin && \
         make build-release && \
         mv  build_output/* ${REPO_PATH}/build/_output/
 
+# Package each binary
+RUN make package-binaries
+
 FROM registry.access.redhat.com/ubi9/ubi-minimal:latest
 
 ENV REPO_PATH=/go/src/github.com/stolostron/acm-cli
