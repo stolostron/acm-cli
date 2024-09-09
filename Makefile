@@ -42,14 +42,36 @@ clean:
 # build section
 ############################################################
 CONTAINER_ENGINE ?= podman
+BUILD_DIR ?= ./build/_output
 
 .PHONY: build
 build:
-	CGO_ENABLED=1 go build -o ./build/_output/acm-cli-server ./server/main.go
+	CGO_ENABLED=1 go build -o $(BUILD_DIR)/acm-cli-server ./server/main.go
 
 .PHONY: build-image
 build-image:
 	$(CONTAINER_ENGINE) build --platform linux/$(ARCH) $(BUILD_ARGS) -t $(IMAGE_NAME_AND_VERSION):$(TAG) .
+
+.PHONY: package-binaries
+package-binaries:
+	@cp LICENSE $(BUILD_DIR)
+	# Packaging Windows binaries into zip archives
+	cd $(BUILD_DIR) && find . -type f \
+		-name "*.exe" \
+		-exec bash -c 'mkdir $$(basename {} ".exe")' \; \
+		-exec bash -c 'mv {} $$(basename {} ".exe")' \; \
+		-exec bash -c 'cp LICENSE $$(basename {} ".exe")' \; \
+		-exec bash -c 'zip -rv $$(basename {} ".exe").zip $$(basename {} ".exe")' \; \
+		-exec bash -c 'rm -r $$(basename {} ".exe")' \;
+	# Packaging Linux/Darwin binaries into tarballs
+	cd $(BUILD_DIR) && find . -type f \
+		-not -name "acm-cli-server" \
+		-not -name "*.zip" \
+		-not -name "*.tar.gz" \
+		-not -name "LICENSE" \
+		-exec tar -zvcf {}.tar.gz {} LICENSE \; \
+		-exec rm {} \;
+	@rm $(BUILD_DIR)/LICENSE
 
 ############################################################
 # deploy section
@@ -72,7 +94,6 @@ deploy:
 	# Creating the acm-cli-downloads deployment in namespace default
 	helm template deploy/ | kubectl apply -n default -f -
 	kubectl rollout status deployment -n default acm-cli-downloads
-	kubectl wait pod -n default -l component=acm-cli-downloads --for condition=Ready
 
 ############################################################
 # lint section
@@ -98,6 +119,9 @@ kind-bootstrap-cluster: kind-create-cluster
 .PHONY: e2e-test
 e2e-test: kind-bootstrap-cluster
 	# Checking availability of CLI server endpoint
-	curl -sS http://localhost:30000 1>/dev/null
+	for i in {1..5}; do \
+		curl -sS http://localhost:30000 1>/dev/null || \
+			{ echo "Connection failed. Retrying ($${i}/5)"; sleep 3; }; \
+	done
 	# Validating returned file list against test/cli_list.html
 	curl -s http://localhost:30000 | diff test/cli_list.html - && echo "Success!"

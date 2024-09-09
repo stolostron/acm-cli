@@ -16,28 +16,28 @@ spec:
           plug-in, allowing integration with GitOps.
   displayName: "Advanced Cluster Management - {{ .Values.acmVersion }}"
   links:
-    - href: "https://acm-cli-downloads.{{ .Values.ingress.domain }}/linux-amd64-policytools"
+    - href: "https://acm-cli-downloads.{{ .Values.ingress.domain }}/linux-amd64-policytools.tar.gz"
       text: Download policytools for Linux for x86_64
-    - href: "https://acm-cli-downloads.{{ .Values.ingress.domain }}/linux-arm64-policytools"
+    - href: "https://acm-cli-downloads.{{ .Values.ingress.domain }}/linux-arm64-policytools.tar.gz"
       text: Download policytools for Linux for ARM64
-    - href: "https://acm-cli-downloads.{{ .Values.ingress.domain }}/darwin-amd64-policytools"
+    - href: "https://acm-cli-downloads.{{ .Values.ingress.domain }}/darwin-amd64-policytools.tar.gz"
       text: Download policytools for Mac for x86_64
-    - href: "https://acm-cli-downloads.{{ .Values.ingress.domain }}/darwin-arm64-policytools"
+    - href: "https://acm-cli-downloads.{{ .Values.ingress.domain }}/darwin-arm64-policytools.tar.gz"
       text: Download policytools for Mac for ARM64
-    - href: "https://acm-cli-downloads.{{ .Values.ingress.domain }}/windows-amd64-policytools.exe"
+    - href: "https://acm-cli-downloads.{{ .Values.ingress.domain }}/windows-amd64-policytools.zip"
       text: Download policytools for Windows for x86_64
-    - href: "https://acm-cli-downloads.{{ .Values.ingress.domain }}/windows-arm64-policytools.exe"
+    - href: "https://acm-cli-downloads.{{ .Values.ingress.domain }}/windows-arm64-policytools.zip"
       text: Download policytools for Windows for ARM64
-    - href: "https://acm-cli-downloads.{{ .Values.ingress.domain }}/linux-amd64-PolicyGenerator"
+    - href: "https://acm-cli-downloads.{{ .Values.ingress.domain }}/linux-amd64-PolicyGenerator.tar.gz"
       text: Download PolicyGenerator for Linux for x86_64
-    - href: "https://acm-cli-downloads.{{ .Values.ingress.domain }}/linux-arm64-PolicyGenerator"
+    - href: "https://acm-cli-downloads.{{ .Values.ingress.domain }}/linux-arm64-PolicyGenerator.tar.gz"
       text: Download PolicyGenerator for Linux for ARM64
-    - href: "https://acm-cli-downloads.{{ .Values.ingress.domain }}/darwin-amd64-PolicyGenerator"
+    - href: "https://acm-cli-downloads.{{ .Values.ingress.domain }}/darwin-amd64-PolicyGenerator.tar.gz"
       text: Download PolicyGenerator for Mac for x86_64
-    - href: "https://acm-cli-downloads.{{ .Values.ingress.domain }}/darwin-arm64-PolicyGenerator"
+    - href: "https://acm-cli-downloads.{{ .Values.ingress.domain }}/darwin-arm64-PolicyGenerator.tar.gz"
       text: Download PolicyGenerator for Mac for ARM64
-    - href: "https://acm-cli-downloads.{{ .Values.ingress.domain }}/windows-amd64-PolicyGenerator.exe"
+    - href: "https://acm-cli-downloads.{{ .Values.ingress.domain }}/windows-amd64-PolicyGenerator.zip"
       text: Download PolicyGenerator for Windows for x86_64
-    - href: "https://acm-cli-downloads.{{ .Values.ingress.domain }}/windows-arm64-PolicyGenerator.exe"
+    - href: "https://acm-cli-downloads.{{ .Values.ingress.domain }}/windows-arm64-PolicyGenerator.zip"
       text: Download PolicyGenerator for Windows for ARM64
 {{- end }}
