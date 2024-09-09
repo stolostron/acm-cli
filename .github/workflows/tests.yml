@@ -29,7 +29,16 @@ jobs:
           make lint
           make fmt
           git diff --exit-code
+
+      - name: GoSec Scan
+        run: |
           make gosec-scan
+
+      - name: Validate Dockerfile sync
+        run: |
+          diff \
+          <(grep -v "^FROM .* builder$" Dockerfile) \
+          <(grep -v "^FROM .* builder$" Dockerfile.rhtap)
 
   test:
     runs-on: ubuntu-latest
