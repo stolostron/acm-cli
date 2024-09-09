@@ -2,36 +2,42 @@
 
 Collection of binaries for managing Red Hat Advanced Cluster Management for Kubernetes (RHACM),
 delivered through a container image containing a Golang web server for the files to be readily
-downloadable:
+downloadable. These binaries are available (expand each description for details):
 
 - **Policy toolset**
-  - A toolset to help manage RHACM policies.
+  <details><summary>A toolset to help manage RHACM policies.
+  </summary>
+
   - Code repository: https://github.com/stolostron/policy-cli
   - Files available:
     ```
-    darwin-amd64-policytools
-    darwin-arm64-policytools
-    linux-amd64-policytools
-    linux-arm64-policytools
-    windows-amd64-policytools.exe
-    windows-arm64-policytools.exe
+    darwin-amd64-policytools.tar.gz
+    darwin-arm64-policytools.tar.gz
+    linux-amd64-policytools.tar.gz
+    linux-arm64-policytools.tar.gz
+    windows-amd64-policytools.zip
+    windows-arm64-policytools.zip
     ```
+  </details>
+
 - **Policy generator**
-  - Kustomize plugin binary to generate RHACM policies from Kubernetes manifests.
+  <details><summary>Kustomize plugin binary to generate RHACM policies from Kubernetes manifests.
+  </summary>
+
   - Code repository: https://github.com/stolostron/policy-generator-plugin
   - Files available:
     ```
-    PolicyGenerator
-    darwin-amd64-PolicyGenerator
-    darwin-arm64-PolicyGenerator
-    linux-amd64-PolicyGenerator
-    linux-arm64-PolicyGenerator
-    windows-amd64-PolicyGenerator.exe
-    windows-arm64-PolicyGenerator.exe
+    darwin-amd64-PolicyGenerator.tar.gz
+    darwin-arm64-PolicyGenerator.tar.gz
+    linux-amd64-PolicyGenerator.tar.gz
+    linux-arm64-PolicyGenerator.tar.gz
+    windows-amd64-PolicyGenerator.zip
+    windows-arm64-PolicyGenerator.zip
     ```
-    **NOTE:** The `PolicyGenerator` binary matches the container architecture and is intended to be
+    <!-- TODO: **NOTE:** The `PolicyGenerator` binary matches the container architecture and is intended to be
     loaded into other containers like Openshift GitOps/ArgoCD. The files with architectures are
-    served for users to be able to choose the binary that matches their local system.
+    served for users to be able to choose the binary that matches their local system. -->
+  </details>
 
 ## Build the image locally
 
