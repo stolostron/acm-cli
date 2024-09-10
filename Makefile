@@ -36,13 +36,15 @@ clean:
 	-rm kubeconfig_*
 	-rm gosec.json
 	-rm kubeconfig_*
+	-rm -rf git-*/
 	kind delete cluster --name $(KIND_NAME)
 
 ############################################################
 # build section
 ############################################################
 CONTAINER_ENGINE ?= podman
-BUILD_DIR ?= ./build/_output
+BUILD_DIR ?= build/_output
+RELEASE_TAG ?= main
 
 .PHONY: build
 build:
@@ -51,6 +53,17 @@ build:
 .PHONY: build-image
 build-image:
 	$(CONTAINER_ENGINE) build --platform linux/$(ARCH) $(BUILD_ARGS) -t $(IMAGE_NAME_AND_VERSION):$(TAG) .
+
+.PHONY: build-binaries
+build-binaries:
+	while IFS=, read -r git_url build_cmd build_dir; do \
+		cd $(PWD); \
+		echo "* Building binaries from $${git_url}"; \
+		git clone --branch=${RELEASE_TAG} --depth=1 $${git_url} git-$${git_url##*/} && \
+		cd git-$${git_url##*/} && \
+		$${build_cmd} && \
+		mv $${build_dir}/* $(PWD)/$(BUILD_DIR); \
+	done < ./build/cli_map.csv
 
 .PHONY: package-binaries
 package-binaries:

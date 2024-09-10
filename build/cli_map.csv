@@ -1,0 +1,2 @@
+https://github.com/stolostron/policy-cli,make build-release,build/_output
+https://github.com/stolostron/policy-generator-plugin,make build-release,build_output
