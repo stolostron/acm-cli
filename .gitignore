@@ -2,3 +2,4 @@ build/_output/
 bin/
 gosec.json
 kubeconfig_*
+git-*/

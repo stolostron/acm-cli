@@ -9,19 +9,8 @@ WORKDIR ${REPO_PATH}
 COPY . .
 RUN make build
 
-# Fetch and build the Policy toolset
-RUN git clone --branch=${RELEASE_TAG} --depth=1 \
-        https://github.com/stolostron/policy-cli
-RUN cd policy-cli && \
-        make build-release && \
-        mv build/_output/* ${REPO_PATH}/build/_output/
-
-# Fetch and build the Policy generator
-RUN git clone --branch=${RELEASE_TAG} --depth=1 \
-        https://github.com/stolostron/policy-generator-plugin
-RUN cd policy-generator-plugin && \
-        make build-release && \
-        mv  build_output/* ${REPO_PATH}/build/_output/
+# Fetch and build binaries
+RUN make build-binaries
 
 # Package each binary
 RUN make package-binaries
