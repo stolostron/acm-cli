@@ -146,7 +146,7 @@ kind-bootstrap-cluster: kind-create-cluster
 .PHONY: e2e-test
 e2e-test: kind-bootstrap-cluster
 	# Checking availability of CLI server endpoint
-	for i in {1..5}; do \
+	for i in $$(seq 1 5); do \
 		curl -sS http://localhost:30000 1>/dev/null || \
 			{ echo "Connection failed. Retrying ($${i}/5)"; sleep 3; }; \
 	done
