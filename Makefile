@@ -54,6 +54,9 @@ build:
 build-image:
 	$(CONTAINER_ENGINE) build --platform linux/$(ARCH) $(BUILD_ARGS) -t $(IMAGE_NAME_AND_VERSION):$(TAG) .
 
+.PHONY: build-and-package
+build-and-package: build-binaries package-binaries
+
 .PHONY: build-binaries
 build-binaries:
 	while IFS=, read -r git_url build_cmd build_dir; do \

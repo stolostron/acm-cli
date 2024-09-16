@@ -9,11 +9,8 @@ WORKDIR ${REPO_PATH}
 COPY . .
 RUN make build
 
-# Fetch and build binaries
-RUN make build-binaries
-
-# Package each binary
-RUN make package-binaries
+# Fetch and package imported binaries
+RUN make build-and-package
 
 FROM registry.access.redhat.com/ubi9/ubi-minimal:latest
 
