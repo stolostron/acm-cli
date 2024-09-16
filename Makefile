@@ -36,7 +36,7 @@ clean:
 	-rm kubeconfig_*
 	-rm gosec.json
 	-rm kubeconfig_*
-	-rm -rf git-*/
+	-rm -rf external/*
 	kind delete cluster --name $(KIND_NAME)
 
 ############################################################
@@ -45,6 +45,8 @@ clean:
 CONTAINER_ENGINE ?= podman
 BUILD_DIR ?= build/_output
 RELEASE_TAG ?= main
+REMOTE_SOURCES_DIR ?= $(PWD)/external
+REMOTE_SOURCES_SUBDIR ?= 
 
 .PHONY: build
 build:
@@ -54,18 +56,27 @@ build:
 build-image:
 	$(CONTAINER_ENGINE) build --platform linux/$(ARCH) $(BUILD_ARGS) -t $(IMAGE_NAME_AND_VERSION):$(TAG) .
 
+.PHONY: clone-build-package
+clone-build-package: clone-repos build-and-package
+
 .PHONY: build-and-package
 build-and-package: build-binaries package-binaries
+
+.PHONY: clone-repos
+clone-repos:
+	while IFS=, read -r git_url build_cmd build_dir; do \
+		git clone --branch=${RELEASE_TAG} --depth=1 $${git_url} $(REMOTE_SOURCES_DIR)/$${git_url##*/}/$(REMOTE_SOURCES_SUBDIR); \
+	done < ./build/cli_map.csv
 
 .PHONY: build-binaries
 build-binaries:
 	while IFS=, read -r git_url build_cmd build_dir; do \
-		cd $(PWD); \
 		echo "* Building binaries from $${git_url}"; \
-		git clone --branch=${RELEASE_TAG} --depth=1 $${git_url} git-$${git_url##*/} && \
-		cd git-$${git_url##*/} && \
-		$${build_cmd} && \
-		mv $${build_dir}/* $(PWD)/$(BUILD_DIR); \
+		( \
+			cd $(REMOTE_SOURCES_DIR)/$${git_url##*/}/$(REMOTE_SOURCES_SUBDIR) && \
+			$${build_cmd} && \
+			mv $${build_dir}/* $(PWD)/$(BUILD_DIR); \
+		); \
 	done < ./build/cli_map.csv
 
 .PHONY: package-binaries
