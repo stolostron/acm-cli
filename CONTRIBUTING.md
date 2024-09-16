@@ -69,5 +69,6 @@ Before submitting a PR, please perform the following steps:
 ```shell
 make fmt
 make lint
-make test
+make build-image
+make e2e-test
 ```

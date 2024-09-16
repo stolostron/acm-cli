@@ -18,6 +18,7 @@ downloadable. These binaries are available (expand each description for details)
     windows-amd64-policytools.zip
     windows-arm64-policytools.zip
     ```
+
   </details>
 
 - **Policy generator**
@@ -37,6 +38,7 @@ downloadable. These binaries are available (expand each description for details)
     <!-- TODO: **NOTE:** The `PolicyGenerator` binary matches the container architecture and is intended to be
     loaded into other containers like Openshift GitOps/ArgoCD. The files with architectures are
     served for users to be able to choose the binary that matches their local system. -->
+
   </details>
 
 ## Build the image locally
@@ -62,8 +64,8 @@ make deploy-openshift
 
 ## Testing the image
 
-The `e2e-test` target builds the image, deploys to a Kind cluster, and verifies the files being
-served against [`test/cli_list.html`](test/cli_list.html):
+The `e2e-test` target deploys to a Kind cluster and verifies the files being served against
+[`test/cli_list.html`](test/cli_list.html):
 
 ```shell
 make e2e-test
