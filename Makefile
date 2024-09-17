@@ -70,14 +70,8 @@ clone-repos:
 
 .PHONY: build-binaries
 build-binaries:
-	while IFS=, read -r git_url build_cmd build_dir; do \
-		echo "* Building binaries from $${git_url}"; \
-		( \
-			cd $(REMOTE_SOURCES_DIR)/$${git_url##*/}/$(REMOTE_SOURCES_SUBDIR) && \
-			$${build_cmd} && \
-			mv $${build_dir}/* $(PWD)/$(BUILD_DIR); \
-		); \
-	done < ./build/cli_map.csv
+	BUILD_DIR=$(BUILD_DIR) REMOTE_SOURCES_DIR=$(REMOTE_SOURCES_DIR) REMOTE_SOURCES_SUBDIR=$(REMOTE_SOURCES_SUBDIR) \
+		./build/cli-builder.sh
 
 .PHONY: package-binaries
 package-binaries:
