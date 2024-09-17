@@ -12,6 +12,8 @@ while IFS=, read -r git_url build_cmd build_dir; do
   git_repo=${git_url##*/}
 
   (
+    cd "${REMOTE_SOURCES_DIR}/${git_repo}/${REMOTE_SOURCES_SUBDIR}"
+
     # Source relevant cachito.env for downstream builds
     cachito_path="${REMOTE_SOURCES_DIR}/${git_repo}"/cachito.env
     if [[ -f "${cachito_path}" ]]; then
@@ -27,7 +29,6 @@ while IFS=, read -r git_url build_cmd build_dir; do
     fi
 
     echo "* Building binaries from ${git_url}"
-    cd "${REMOTE_SOURCES_DIR}/${git_repo}/${REMOTE_SOURCES_SUBDIR}"
     echo "* Executing build command: ${build_cmd}"
     ${build_cmd}
     echo "* Moving binaries from repo directory <repo>/${build_dir}/ to: ./${BUILD_DIR}/"
