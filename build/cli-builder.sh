@@ -9,6 +9,10 @@ REMOTE_SOURCES_SUBDIR=${REMOTE_SOURCES_SUBDIR:-}
 BUILD_DIR=${BUILD_DIR:-${SCRIPT_DIR}}
 
 while IFS=, read -r git_url build_cmd build_dir; do
+  if [[ "${git_url}" == "GIT REPO URL" ]]; then
+    continue
+  fi
+
   git_repo=${git_url##*/}
 
   cd "${REMOTE_SOURCES_DIR}/${git_repo}/${REMOTE_SOURCES_SUBDIR}"

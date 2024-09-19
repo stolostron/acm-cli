@@ -65,7 +65,9 @@ build-and-package: build-binaries package-binaries
 .PHONY: clone-repos
 clone-repos:
 	while IFS=, read -r git_url build_cmd build_dir; do \
-		git clone --branch=${RELEASE_TAG} --depth=1 $${git_url} $(REMOTE_SOURCES_DIR)/$${git_url##*/}/$(REMOTE_SOURCES_SUBDIR); \
+		if [[ "$${git_url}" != "GIT REPO URL" ]]; then \
+			git clone --branch=${RELEASE_TAG} --depth=1 $${git_url} $(REMOTE_SOURCES_DIR)/$${git_url##*/}/$(REMOTE_SOURCES_SUBDIR); \
+		fi; \
 	done < ./build/cli_map.csv
 
 .PHONY: build-binaries
