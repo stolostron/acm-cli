@@ -24,6 +24,26 @@ spec:
             requests:
               memory: "64Mi"
               cpu: "10m"
+          livenessProbe:
+            httpGet:
+              port: downloads
+              scheme: "HTTP{{ if .Values.isOpenshift }}S{{ end }}"
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              port: downloads
+              scheme: "HTTP{{ if .Values.isOpenshift }}S{{ end }}"
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          securityContext:
+            privileged: false
+            readOnlyRootFilesystem: true
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            capabilities:
+              drop:
+              - ALL
           ports:
       {{- if not .Values.isOpenshift }}
             - containerPort: 8080
@@ -42,3 +62,8 @@ spec:
           secret:
             secretName: acm-cli-cert
       {{- end }}
+      hostNetwork: false
+      hostPID: false
+      hostIPC: false
+      securityContext:
+        runAsNonRoot: true

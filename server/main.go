@@ -37,6 +37,8 @@ func main() {
 		if len(missingFiles) > 0 {
 			log.Fatalf("error: Certificate files %s not found in /var/run/acm-cli-cert/\n", missingFiles)
 		}
+
+		port = "8443"
 	}
 
 	// Set up file server with timeouts
