@@ -1,0 +1,5 @@
+.github/
+.tekton/
+bin/
+external/
+test/
