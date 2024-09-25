@@ -24,6 +24,9 @@ spec:
             requests:
               memory: "64Mi"
               cpu: "10m"
+            limits:
+              memory: "128Mi"
+              cpu: "50m"
           livenessProbe:
             httpGet:
               port: downloads
@@ -62,8 +65,49 @@ spec:
           secret:
             secretName: acm-cli-cert
       {{- end }}
+      automountServiceAccountToken: false
       hostNetwork: false
       hostPID: false
       hostIPC: false
       securityContext:
         runAsNonRoot: true
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/arch
+                operator: In
+                values:
+                - amd64
+                - ppc64le
+                - s390x
+                - arm64
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 70
+            podAffinityTerm:
+              topologyKey: topology.kubernetes.io/zone
+              labelSelector:
+                matchExpressions:
+                - key: ocm-antiaffinity-selector
+                  operator: In
+                  values:
+                  - console
+                - key: component
+                  operator: In
+                  values:
+                  - console
+          - weight: 35
+            podAffinityTerm:
+              topologyKey: kubernetes.io/hostname
+              labelSelector:
+                matchExpressions:
+                - key: ocm-antiaffinity-selector
+                  operator: In
+                  values:
+                  - console
+                - key: component
+                  operator: In
+                  values:
+                  - console
