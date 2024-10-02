@@ -32,7 +32,7 @@ IMAGE_NAME_AND_VERSION ?= $(REGISTRY)/$(IMG)
 
 .PHONY: clean
 clean:
-	-rm build/_output/*
+	-rm -rf build/_output/*
 	-rm kubeconfig_*
 	-rm gosec.json
 	-rm kubeconfig_*
@@ -77,24 +77,7 @@ build-binaries:
 
 .PHONY: package-binaries
 package-binaries:
-	@cp LICENSE $(BUILD_DIR)
-	# Packaging Windows binaries into zip archives
-	cd $(BUILD_DIR) && find . -type f \
-		-name "*.exe" \
-		-exec bash -c 'mkdir $$(basename {} ".exe")' \; \
-		-exec bash -c 'mv {} $$(basename {} ".exe")' \; \
-		-exec bash -c 'cp LICENSE $$(basename {} ".exe")' \; \
-		-exec bash -c 'zip -rv $$(basename {} ".exe").zip $$(basename {} ".exe")' \; \
-		-exec bash -c 'rm -r $$(basename {} ".exe")' \;
-	# Packaging Linux/Darwin binaries into tarballs
-	cd $(BUILD_DIR) && find . -type f \
-		-not -name "acm-cli-server" \
-		-not -name "*.zip" \
-		-not -name "*.tar.gz" \
-		-not -name "LICENSE" \
-		-exec tar -zvcf {}.tar.gz {} LICENSE \; \
-		-exec rm {} \;
-	@rm $(BUILD_DIR)/LICENSE
+	BUILD_DIR=$(BUILD_DIR) ./build/cli-packager.sh
 
 ############################################################
 # deploy section

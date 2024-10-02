@@ -29,6 +29,7 @@ while IFS=, read -r git_url build_cmd build_dir; do
     git checkout -b ${CI_UPSTREAM_BRANCH}
   fi
 
+  echo "=="
   echo "* Building binaries from ${git_url}"
   echo "* Executing build command: ${build_cmd}"
   ${build_cmd}
