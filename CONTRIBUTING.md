@@ -51,7 +51,8 @@ for details.
 3. Submit a pull request.
 
 In order to contribute a binary to `acm-cli`, add a new line to
-[`build/cli_map.csv`](build/cli_map.csv). The file is in CSV (Comma Separated Values) format with the following columns:
+[`build/cli_map.csv`](build/cli_map.csv). The file is in CSV (Comma Separated Values) format with
+the following columns:
 
 - Git URL
 - Build command
@@ -62,6 +63,11 @@ So the new line would be formatted as:
 ```
 <git-url>,<build-command>,<build-output-directory>
 ```
+
+The expectation is that the output binary filenames in the build output directory are formatted as
+`<os>-<arch>-<binary_name>`. The CLI packaging script greedily strips all characters before the
+final dash ('-') to determine the filename of the binary inside the packaged archive and packages it
+with the Apache license from this repository.
 
 ## Issue and pull request management
 
