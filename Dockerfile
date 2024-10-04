@@ -17,6 +17,7 @@ FROM registry.access.redhat.com/ubi9/ubi-minimal:latest
 ENV REPO_PATH=/go/src/github.com/stolostron/acm-cli
 
 RUN microdnf update -y \
+    && microdnf install -y tar \
     && microdnf clean all
 
 # Copy binaries from builder
