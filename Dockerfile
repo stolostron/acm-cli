@@ -1,6 +1,6 @@
 FROM registry.ci.openshift.org/stolostron/builder:go1.22-linux AS builder
 
-ENV RELEASE_TAG=release-2.12 \
+ENV RELEASE_TAG=release-2.13 \
     REPO_PATH=/go/src/github.com/stolostron/acm-cli
 
 WORKDIR ${REPO_PATH}
@@ -16,9 +16,7 @@ FROM registry.access.redhat.com/ubi9/ubi-minimal:latest
 
 ENV REPO_PATH=/go/src/github.com/stolostron/acm-cli
 
-RUN microdnf update -y \
-    && microdnf install -y tar \
-    && microdnf clean all
+RUN microdnf install -y tar
 
 # Copy binaries from builder
 COPY --from=builder ${REPO_PATH}/build/_output/* /acm-cli/
@@ -28,3 +26,11 @@ RUN mv /acm-cli/acm-cli-server /usr/local/bin/
 USER 1001
 
 ENTRYPOINT [ "/usr/local/bin/acm-cli-server" ]
+
+LABEL name="rhacm2/acm-cli-rhel9"
+LABEL summary="Serve ACM CLI binaries"
+LABEL description="Serve ACM CLI binaries through the Red Hat Openshift console"
+LABEL io.k8s.display-name="ACM CLI downloads"
+LABEL io.k8s.description="Serve ACM CLI binaries through the Red Hat Openshift console"
+LABEL com.redhat.component="acm-cli-container"
+LABEL io.openshift.tags="data,images"

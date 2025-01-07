@@ -50,7 +50,7 @@ REMOTE_SOURCES_SUBDIR ?=
 
 .PHONY: build
 build:
-	CGO_ENABLED=1 go build -o $(BUILD_DIR)/acm-cli-server ./server/main.go
+	CGO_ENABLED=1 go build -mod=readonly -o $(BUILD_DIR)/acm-cli-server ./server/main.go
 
 .PHONY: build-image
 build-image:
