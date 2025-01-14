@@ -10,7 +10,7 @@ COPY . .
 RUN make build
 
 # Fetch and package imported binaries
-RUN make clone-build-package
+RUN make sync-build-package
 
 FROM registry.access.redhat.com/ubi9/ubi-minimal:latest
 

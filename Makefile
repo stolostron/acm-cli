@@ -56,19 +56,15 @@ build:
 build-image:
 	$(CONTAINER_ENGINE) build --platform linux/$(ARCH) $(BUILD_ARGS) -t $(IMAGE_NAME_AND_VERSION):$(TAG) .
 
-.PHONY: clone-build-package
-clone-build-package: clone-repos build-and-package
+.PHONY: sync-build-package
+sync-build-package: sync-repos build-and-package
 
 .PHONY: build-and-package
 build-and-package: build-binaries package-binaries
 
-.PHONY: clone-repos
-clone-repos:
-	while IFS=, read -r git_url build_cmd build_dir; do \
-		if [[ "$${git_url}" != "GIT REPO URL" ]]; then \
-			git clone --branch=${RELEASE_TAG} --depth=1 $${git_url} $(REMOTE_SOURCES_DIR)/$${git_url##*/}/$(REMOTE_SOURCES_SUBDIR); \
-		fi; \
-	done < ./build/cli_map.csv
+.PHONY: sync-repos
+sync-repos:
+	git submodule update --init
 
 .PHONY: build-binaries
 build-binaries:
