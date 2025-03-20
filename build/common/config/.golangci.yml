@@ -24,6 +24,7 @@ run:
 linters:
   enable-all: true
   disable:
+    - mnd # Disabled as tech debt: Magic number detection
     - bodyclose
     # Disable contextcheck since we don't want to pass the context passed to PeriodicallyExecConfigPolicies to functions
     # called within it or else cleanup won't occur
