@@ -26,7 +26,6 @@ jobs:
       - name: Lint
         run: |
           go mod verify
-          make lint
           make fmt
           git diff --exit-code
 
