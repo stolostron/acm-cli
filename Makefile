@@ -44,9 +44,6 @@ clean:
 ############################################################
 CONTAINER_ENGINE ?= podman
 BUILD_DIR ?= build/_output
-RELEASE_TAG ?= main
-REMOTE_SOURCES_DIR ?= $(PWD)/external
-REMOTE_SOURCES_SUBDIR ?= 
 
 .PHONY: build
 build:
@@ -68,8 +65,7 @@ sync-repos:
 
 .PHONY: build-binaries
 build-binaries:
-	BUILD_DIR=$(BUILD_DIR) REMOTE_SOURCES_DIR=$(REMOTE_SOURCES_DIR) REMOTE_SOURCES_SUBDIR=$(REMOTE_SOURCES_SUBDIR) \
-		./build/cli-builder.sh
+	BUILD_DIR=$(BUILD_DIR) ./build/cli-builder.sh
 
 .PHONY: package-binaries
 package-binaries:
