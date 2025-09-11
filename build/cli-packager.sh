@@ -4,11 +4,11 @@ set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 
-BUILD_DIR=${BUILD_DIR:-${SCRIPT_DIR}}
+BUILD_DIR=${BUILD_DIR:-"${SCRIPT_DIR}/_output"}
 
-cp ${SCRIPT_DIR}/../LICENSE ${BUILD_DIR}
+cp "${SCRIPT_DIR}"/../LICENSE "${BUILD_DIR}"
 
-cd ${BUILD_DIR}
+cd "${BUILD_DIR}"
 
 echo "# Packaging Windows binaries into zip archives"
 find . -type f -maxdepth 1 \
