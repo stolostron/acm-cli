@@ -8,9 +8,10 @@ downloadable. These binaries are available (expand each description for details)
   <details><summary>A toolset to help manage RHACM policies.
   </summary>
 
-  - Code repository: https://github.com/stolostron/policy-cli
+  - Code repository: [stolostron/policy-cli](https://github.com/stolostron/policy-cli)
   - Files available:
-    ```
+  
+    ```text
     darwin-amd64-policytools.tar.gz
     darwin-arm64-policytools.tar.gz
     linux-amd64-policytools.tar.gz
@@ -25,9 +26,10 @@ downloadable. These binaries are available (expand each description for details)
   <details><summary>Kustomize plugin binary to generate RHACM policies from Kubernetes manifests.
   </summary>
 
-  - Code repository: https://github.com/stolostron/policy-generator-plugin
+  - Code repository: [stolostron/policy-generator-plugin](https://github.com/stolostron/policy-generator-plugin)
   - Files available:
-    ```
+  
+    ```text
     darwin-amd64-PolicyGenerator.tar.gz
     darwin-arm64-PolicyGenerator.tar.gz
     linux-amd64-PolicyGenerator.tar.gz

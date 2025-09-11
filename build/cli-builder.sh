@@ -6,6 +6,22 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 BUILD_DIR=${BUILD_DIR:-"build/_output"}
 current_branch=$(git -C "${SCRIPT_DIR}/../" branch --show-current)
 
+if ! [[ -d "${SCRIPT_DIR}/../${BUILD_DIR}" ]]; then
+  echo "="
+  echo "* error: build directory ${BUILD_DIR} does not exist. Check whether the build directory is initialized:"
+  echo "  make build"
+  echo
+  exit 1
+fi
+
+function return_submodule_error() {
+  echo "="
+  echo "* error: build failed. Check whether the submodule is initialized and up to date:"
+  echo "  make sync-repos"
+  echo
+  exit 1
+}
+
 while IFS=, read -r git_url build_cmd build_dir; do
   if [[ "${git_url}" == "GIT REPO URL" ]]; then
     continue
@@ -13,7 +29,7 @@ while IFS=, read -r git_url build_cmd build_dir; do
 
   git_repo=${git_url##*/}
 
-  cd "${SCRIPT_DIR}/../external/${git_repo}"
+  cd "${SCRIPT_DIR}/../external/${git_repo}" || return_submodule_error
   echo "=="
 
   # Set branch using .gitmodules config
@@ -34,7 +50,7 @@ while IFS=, read -r git_url build_cmd build_dir; do
 
   echo "* Building binaries from ${git_url}"
   echo "* Executing build command: ${build_cmd}"
-  ${build_cmd}
+  ${build_cmd} || return_submodule_error
   echo "* Moving binaries from repo directory <repo>/${build_dir}/ to: ./${BUILD_DIR}/"
   mv "${build_dir}"/* "${SCRIPT_DIR}/../${BUILD_DIR}"
   previous_branch=${submodule_branch}
