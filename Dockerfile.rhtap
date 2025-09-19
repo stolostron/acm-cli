@@ -34,3 +34,4 @@ LABEL io.k8s.description="Serve ACM CLI binaries through the Red Hat Openshift c
 LABEL com.redhat.component="acm-cli-container"
 LABEL io.openshift.tags="data,images"
 LABEL cpe="cpe:/a:redhat:acm:2.15::el9"
+LABEL url="https://github.com/stolostron/acm-cli"
