@@ -1,4 +1,4 @@
-FROM registry.ci.openshift.org/stolostron/builder:go1.23-linux AS builder
+FROM registry.ci.openshift.org/stolostron/builder:go1.24-linux AS builder
 
 ENV RELEASE_TAG=release-2.13 \
     REPO_PATH=/go/src/github.com/stolostron/acm-cli
