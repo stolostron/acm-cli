@@ -1,7 +1,6 @@
 FROM brew.registry.redhat.io/rh-osbs/openshift-golang-builder:rhel_9_1.24 AS builder
 
-ENV RELEASE_TAG=release-2.12 \
-    REPO_PATH=/go/src/github.com/stolostron/acm-cli
+ENV REPO_PATH=/go/src/github.com/stolostron/acm-cli
 
 WORKDIR ${REPO_PATH}
 
