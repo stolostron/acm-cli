@@ -21,6 +21,10 @@ RUN microdnf install -y tar
 COPY --from=builder ${REPO_PATH}/build/_output/* /acm-cli/
 RUN mv /acm-cli/acm-cli-server /usr/local/bin/
 
+# Copy license
+RUN mkdir licenses/
+COPY LICENSE licenses/
+
 # Run as non-root user
 USER 1001
 
