@@ -1,3 +1,5 @@
+ARG ACM_VERSION
+
 FROM registry.ci.openshift.org/stolostron/builder:go1.24-linux AS builder
 
 ENV REPO_PATH=/go/src/github.com/stolostron/acm-cli
@@ -33,7 +35,9 @@ ENTRYPOINT [ "/usr/local/bin/acm-cli-server" ]
 LABEL name="rhacm2/acm-cli-rhel9"
 LABEL summary="Serve ACM CLI binaries"
 LABEL description="Serve ACM CLI binaries through the Red Hat Openshift console"
+LABEL url="https://github.com/stolostron/acm-cli"
 LABEL io.k8s.display-name="ACM CLI downloads"
 LABEL io.k8s.description="Serve ACM CLI binaries through the Red Hat Openshift console"
 LABEL com.redhat.component="acm-cli-container"
 LABEL io.openshift.tags="data,images"
+LABEL cpe="cpe:/a:redhat:acm:${ACM_VERSION}::el9"

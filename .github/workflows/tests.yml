@@ -41,28 +41,21 @@ jobs:
           echo "=== Validate Dockerfiles"
           if ! diff \
           <(grep -v "^FROM .* builder$" Dockerfile) \
-          <(grep -v "^FROM .* builder$" Dockerfile.rhtap | grep -v "^LABEL cpe="); then
+          <(grep -v "^FROM .* builder$" Dockerfile.rhtap); then
             echo "  ❌ Dockerfile and Dockerfile.rhtap are not in sync"
             error_code=1
           else
             echo "  ✅ Dockerfile and Dockerfile.rhtap are in sync"
           fi
 
-          echo "=== Validate Konflux CPE label"
+          echo "=== Validate git submodule branches"
           version="${{ github.event_name == 'pull_request' && github.event.pull_request.base.ref || github.ref_name }}"
           if [[ ${version} =~ release-[0-9]+.[0-9]+ ]]; then
             version="${version#release-}"
           else
             version="$(curl -s --fail https://raw.githubusercontent.com/stolostron/governance-policy-framework/refs/heads/main/CURRENT_VERSION | head -n 1)"
           fi
-          if ! grep "LABEL cpe=.*${version}" Dockerfile.rhtap; then
-            echo "  ❌ Dockerfile.rhtap does not have the correct cpe label. Expected '${version}'"
-            exit_code=1
-          else
-            echo "  ✅ Dockerfile.rhtap has the correct CPE label"
-          fi
 
-          echo "=== Validate git submodule branches"
           for submodule in policy-cli policy-generator-plugin; do
             if [[ $(git config --file ".gitmodules" --get "submodule.${submodule}.branch") != "release-${version}" ]]; then
               echo "  ❌ submodule '${submodule}' is not on the correct branch. Expected 'release-${version}' :"

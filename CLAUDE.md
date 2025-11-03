@@ -19,7 +19,7 @@ The `acm-cli` repository provides a collection of binaries for managing Red Hat 
 2. **Git Submodules** (`external/`)
    - `policy-cli`: Toolset for managing RHACM policies (from stolostron/policy-cli)
    - `policy-generator-plugin`: Kustomize plugin to generate RHACM policies (from stolostron/policy-generator-plugin)
-   - Tracked in `.gitmodules` with branch references (currently `release-2.15`)
+   - Tracked in `.gitmodules` with branch references
 
 3. **Build System**
    - `build/cli_map.csv`: Defines which external repos to build and package
