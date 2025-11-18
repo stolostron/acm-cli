@@ -57,4 +57,9 @@ jobs:
 
       - name: Test image
         run: |
+          echo "::group::cleanup docker system"
+          docker system df
+          docker system prune --all --force --filter="label!=name=rhacm2/acm-cli-rhel9"
+          echo "::endgroup::"
+
           make e2e-test
