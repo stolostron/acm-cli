@@ -17,7 +17,7 @@ FROM registry.access.redhat.com/ubi9/ubi-minimal:latest
 
 ENV REPO_PATH=/go/src/github.com/stolostron/acm-cli
 
-RUN microdnf install -y tar
+RUN microdnf install -y tar gzip
 
 # Copy binaries from builder
 COPY --from=builder ${REPO_PATH}/build/_output/* /acm-cli/
