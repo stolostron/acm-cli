@@ -7,3 +7,8 @@
 	path = external/policy-generator-plugin
 	url = https://github.com/stolostron/policy-generator-plugin
 	branch = release-2.16
+	
+[submodule "allowlist-migration-mcoa"]
+	path = external/allowlist-migration-mcoa
+	url = https://github.com/stolostron/allowlist-migration-mcoa
+	branch = release-2.16
