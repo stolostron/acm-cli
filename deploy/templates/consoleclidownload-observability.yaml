@@ -1,0 +1,25 @@
+{{- if .Values.isOpenshift }}
+apiVersion: console.openshift.io/v1
+kind: ConsoleCLIDownload
+metadata:
+  name: acm-observability-migration-cli-downloads
+spec:
+  description: |
+    Converts an allowlist ConfigMap (used by the multicluster-observability-operator) into 
+    equivalent ScrapeConfig and PrometheusRule resources (used by the multicluster-observability-addon).
+    Usage: /path/to/migration <allowlist.yaml> <output-directory> [metrics_list.yaml]
+  displayName: "Advanced Cluster Management Observability Migration Tool - {{ .Values.acmVersion }}"
+  links:
+    - href: "https://acm-cli-downloads.{{ .Values.ingress.domain }}/linux-amd64-allowlist-migration.tar.gz"
+      text: Download allowlist-migration for Linux for x86_64
+    - href: "https://acm-cli-downloads.{{ .Values.ingress.domain }}/linux-arm64-allowlist-migration.tar.gz"
+      text: Download allowlist-migration for Linux for ARM64
+    - href: "https://acm-cli-downloads.{{ .Values.ingress.domain }}/darwin-amd64-allowlist-migration.tar.gz"
+      text: Download allowlist-migration for Mac for x86_64
+    - href: "https://acm-cli-downloads.{{ .Values.ingress.domain }}/darwin-arm64-allowlist-migration.tar.gz"
+      text: Download allowlist-migration for Mac for ARM64
+    - href: "https://acm-cli-downloads.{{ .Values.ingress.domain }}/windows-amd64-allowlist-migration.zip"
+      text: Download allowlist-migration for Windows for x86_64
+    - href: "https://acm-cli-downloads.{{ .Values.ingress.domain }}/windows-arm64-allowlist-migration.zip"
+      text: Download allowlist-migration for Windows for ARM64
+{{- end }}
