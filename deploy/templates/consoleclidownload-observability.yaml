@@ -5,9 +5,9 @@ metadata:
   name: acm-observability-migration-cli-downloads
 spec:
   description: |
-    Converts an allowlist ConfigMap (used by the multicluster-observability-operator) into 
+    The `migration` CLI converts an allowlist ConfigMap (used by the multicluster-observability-operator) into 
     equivalent ScrapeConfig and PrometheusRule resources (used by the multicluster-observability-addon).
-    Usage: /path/to/migration <allowlist.yaml> <output-directory> [metrics_list.yaml]
+    Usage: `/path/to/migration <allowlist.yaml> <output-directory> [metrics_list.yaml]`
   displayName: "Advanced Cluster Management Observability Migration Tool - {{ .Values.acmVersion }}"
   links:
     - href: "https://acm-cli-downloads.{{ .Values.ingress.domain }}/linux-amd64-allowlist-migration.tar.gz"
