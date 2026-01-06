@@ -52,7 +52,11 @@ while IFS=, read -r git_url build_cmd build_dir; do
   echo "* Executing build command: ${build_cmd}"
   ${build_cmd} || return_submodule_error
   echo "* Moving binaries from repo directory <repo>/${build_dir}/ to: ./${BUILD_DIR}/"
+  if [[ -f "${build_dir}" ]]; then
+    mv "${build_dir}" "${SCRIPT_DIR}/../${BUILD_DIR}"
+  else
   mv "${build_dir}"/* "${SCRIPT_DIR}/../${BUILD_DIR}"
+  fi
   previous_branch=${submodule_branch}
 
   cd - 1>/dev/null

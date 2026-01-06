@@ -1,4 +1,5 @@
 GIT REPO URL,BUILD CMD,OUTPUT DIR
 https://github.com/stolostron/policy-cli,make build-release,build/_output
 https://github.com/stolostron/policy-generator-plugin,make build-release,build_output
+https://github.com/stolostron/policy-generator-plugin,make build-binary,PolicyGenerator
 https://github.com/stolostron/allowlist-migration-mcoa,make build-all,build_output
