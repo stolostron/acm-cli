@@ -14,6 +14,10 @@ spec:
       text: Download allowlist-migration for Linux for x86_64
     - href: "https://acm-cli-downloads.{{ .Values.ingress.domain }}/linux-arm64-allowlist-migration.tar.gz"
       text: Download allowlist-migration for Linux for ARM64
+    - href: "https://acm-cli-downloads.{{ .Values.ingress.domain }}/linux-ppc64le-allowlist-migration.tar.gz"
+      text: Download allowlist-migration for Linux for ppc64le
+    - href: "https://acm-cli-downloads.{{ .Values.ingress.domain }}/linux-s390x-allowlist-migration.tar.gz"
+      text: Download allowlist-migration for Linux for s390x
     - href: "https://acm-cli-downloads.{{ .Values.ingress.domain }}/darwin-amd64-allowlist-migration.tar.gz"
       text: Download allowlist-migration for Mac for x86_64
     - href: "https://acm-cli-downloads.{{ .Values.ingress.domain }}/darwin-arm64-allowlist-migration.tar.gz"
