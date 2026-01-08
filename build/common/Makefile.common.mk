@@ -7,7 +7,7 @@ CONTROLLER_GEN_VERSION := v0.19.0
 # https://github.com/kubernetes-sigs/kustomize/releases/latest
 KUSTOMIZE_VERSION := v5.7.1
 # https://github.com/golangci/golangci-lint/releases/latest
-GOLANGCI_VERSION := v1.64.8
+GOLANGCI_VERSION := v2.4.0
 # https://github.com/mvdan/gofumpt/releases/latest
 GOFUMPT_VERSION := v0.9.1
 # https://github.com/daixiang0/gci/releases/latest
@@ -20,9 +20,9 @@ KBVERSION := 4.9.0
 GOCOVMERGE_VERSION := v2.16.0
 # ref: https://book.kubebuilder.io/reference/envtest.html?highlight=setup-envtest#installation
 # Parse the controller-runtime version from go.mod and parse to its release-X.Y git branch
-ENVTEST_VERSION ?= $(shell go list -m -f "{{ .Version }}" sigs.k8s.io/controller-runtime | awk -F'[v.]' '{printf "release-%d.%d", $$2, $$3}')
+ENVTEST_VERSION ?= $(shell go list -m -f "{{ .Version }}" sigs.k8s.io/controller-runtime 2>/dev/null | awk -F'[v.]' '{printf "release-%d.%d", $$2, $$3}')
 # Parse the Kubernetes API version from go.mod (which is v0.Y.Z) and convert to the corresponding v1.Y.Z format
-ENVTEST_K8S_VERSION := $(shell go list -m -f "{{ .Version }}" k8s.io/api | awk -F'[v.]' '{printf "1.%d", $$3}')
+ENVTEST_K8S_VERSION := $(shell go list -m -f "{{ .Version }}" k8s.io/api 2>/dev/null | awk -F'[v.]' '{printf "1.%d", $$3}')
 
 LOCAL_BIN ?= $(error LOCAL_BIN is not set.)
 ifneq ($(findstring $(LOCAL_BIN), $(PATH)), $(LOCAL_BIN))
@@ -76,7 +76,7 @@ lint: lint-dependencies lint-yaml lint-go
 
 .PHONY: lint-dependencies
 lint-dependencies:
-	$(call go-get-tool,github.com/golangci/golangci-lint/cmd/golangci-lint@$(GOLANGCI_VERSION))
+	$(call go-get-tool,github.com/golangci/golangci-lint/v2/cmd/golangci-lint@$(GOLANGCI_VERSION))
 
 .PHONY: lint-yaml
 lint-yaml:
