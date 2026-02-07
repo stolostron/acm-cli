@@ -38,7 +38,7 @@ spec:
       value: 'true'
     - name: build-args
       value:
-        - ACM_VERSION=2.15
+        - ACM_VERSION=2.16
     - name: build-platforms
       value:
         - linux/x86_64
