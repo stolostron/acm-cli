@@ -1,5 +1,3 @@
-ARG ACM_VERSION
-
 FROM registry.ci.openshift.org/stolostron/builder:go1.25-linux AS builder
 
 ENV REPO_PATH=/go/src/github.com/stolostron/acm-cli
@@ -14,6 +12,8 @@ RUN make build
 RUN make sync-build-package
 
 FROM registry.access.redhat.com/ubi9/ubi-minimal:latest
+
+ARG ACM_VERSION
 
 ENV REPO_PATH=/go/src/github.com/stolostron/acm-cli
 
