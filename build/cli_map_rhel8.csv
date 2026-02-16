@@ -1,0 +1,2 @@
+GIT REPO URL,BUILD CMD,OUTPUT DIR
+https://github.com/stolostron/policy-generator-plugin,make build-binary,PolicyGenerator

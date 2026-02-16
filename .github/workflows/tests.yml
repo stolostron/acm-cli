@@ -40,8 +40,8 @@ jobs:
 
           echo "=== Validate Dockerfiles"
           if ! diff \
-          <(grep -v "^FROM .* builder$" Dockerfile) \
-          <(grep -v "^FROM .* builder$" Dockerfile.rhtap); then
+          <(sed -E 's/^(FROM ).*([0-9]+\.[0-9]+).*( AS builder(-rhel8)?)$/\1\2\3/g; s/--chown=1001:1001 //' Dockerfile) \
+          <(sed -E 's/^(FROM ).*([0-9]+\.[0-9]+).*( AS builder(-rhel8)?)$/\1\2\3/g;' Dockerfile.rhtap); then
             echo "  ❌ Dockerfile and Dockerfile.rhtap are not in sync"
             error_code=1
           else

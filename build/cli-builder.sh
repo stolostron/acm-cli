@@ -4,6 +4,7 @@ set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 BUILD_DIR=${BUILD_DIR:-"build/_output"}
+BUILD_INPUT=${BUILD_INPUT:-"cli_map.csv"}
 current_branch=$(git -C "${SCRIPT_DIR}/../" branch --show-current)
 
 if ! [[ -d "${SCRIPT_DIR}/../${BUILD_DIR}" ]]; then
@@ -60,4 +61,4 @@ while IFS=, read -r git_url build_cmd build_dir; do
   previous_branch=${submodule_branch}
 
   cd - 1>/dev/null
-done <"${SCRIPT_DIR}/cli_map.csv"
+done <"${SCRIPT_DIR}/${BUILD_INPUT}"
