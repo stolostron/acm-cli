@@ -3,15 +3,23 @@ ARG ACM_VERSION
 FROM registry.ci.openshift.org/stolostron/builder:go1.25-linux AS builder
 
 ENV REPO_PATH=/go/src/github.com/stolostron/acm-cli
-
 WORKDIR ${REPO_PATH}
+COPY . .
 
 # Build the HTTP server binary
-COPY . .
 RUN make build
 
 # Fetch and package imported binaries
 RUN make sync-build-package
+
+FROM registry.access.redhat.com/ubi8/go-toolset:1.25 AS builder-rhel8
+
+ENV REPO_PATH=/go/src/github.com/stolostron/acm-cli
+WORKDIR ${REPO_PATH}
+COPY --chown=1001:1001 . .
+
+# Fetch and package imported binaries
+RUN BUILD_INPUT=cli_map_rhel8.csv make sync-build-package
 
 FROM registry.access.redhat.com/ubi9/ubi-minimal:latest
 
@@ -21,6 +29,9 @@ RUN microdnf install -y tar gzip
 
 # Copy binaries from builder
 COPY --from=builder ${REPO_PATH}/build/_output/* /acm-cli/
+RUN mv /acm-cli/PolicyGenerator.tar.gz /acm-cli/PolicyGenerator-rhel9.tar.gz
+COPY --from=builder-rhel8 ${REPO_PATH}/build/_output/* /acm-cli/
+RUN mv /acm-cli/PolicyGenerator.tar.gz /acm-cli/PolicyGenerator-rhel8.tar.gz
 RUN mv /acm-cli/acm-cli-server /usr/local/bin/
 
 # Copy license

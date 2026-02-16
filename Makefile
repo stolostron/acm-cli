@@ -45,6 +45,9 @@ clean:
 CONTAINER_ENGINE ?= podman
 BUILD_DIR ?= build/_output
 
+$(BUILD_DIR):
+	mkdir -p $(BUILD_DIR)
+
 .PHONY: build
 build:
 	CGO_ENABLED=1 go build -mod=readonly -o $(BUILD_DIR)/acm-cli-server ./server/main.go
@@ -64,7 +67,7 @@ sync-repos:
 	git submodule update --init
 
 .PHONY: build-binaries
-build-binaries:
+build-binaries: $(BUILD_DIR)
 	BUILD_DIR=$(BUILD_DIR) ./build/cli-builder.sh
 
 .PHONY: package-binaries
