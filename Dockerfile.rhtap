@@ -7,7 +7,7 @@ WORKDIR ${REPO_PATH}
 COPY . .
 
 # Build the HTTP server binary
-RUN make build
+RUN CGO_ENABLED=1 GOEXPERIMENT=strictfipsruntime make build
 
 # Fetch and package imported binaries
 RUN make sync-build-package
