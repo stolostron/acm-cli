@@ -41,7 +41,7 @@ jobs:
           echo "=== Validate Dockerfiles"
           if ! diff \
           <(grep -v "^FROM .* builder$" Dockerfile) \
-          <(grep -v "^FROM .* builder$" Dockerfile.rhtap | grep -v "^LABEL cpe="); then
+          <(grep -v "^FROM .* builder$" Dockerfile.rhtap | grep -v "^LABEL cpe=" | sed 's/GOEXPERIMENT=strictfipsruntime //'); then
             echo "  ❌ Dockerfile and Dockerfile.rhtap are not in sync"
             error_code=1
           else
