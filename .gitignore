@@ -3,3 +3,7 @@ bin/
 gosec.json
 kubeconfig_*
 .go/
+
+# Build files
+content-sets.json
+labels.json
