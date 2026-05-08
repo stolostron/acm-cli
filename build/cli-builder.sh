@@ -29,8 +29,11 @@ while IFS=, read -r git_url build_cmd build_dir; do
   fi
 
   git_repo=${git_url##*/}
+  git_dir=$(realpath "${SCRIPT_DIR}/../external/${git_repo}")
+  GIT="git -C ${git_dir}"
 
-  cd "${SCRIPT_DIR}/../external/${git_repo}" || return_submodule_error
+  [[ -d "${git_dir}" ]] || return_submodule_error
+
   echo "=="
 
   # Set branch using .gitmodules config
@@ -39,7 +42,7 @@ while IFS=, read -r git_url build_cmd build_dir; do
     submodule_branch=$(git config --file "${parent_gitmodules}" --get "submodule.${git_repo}.branch" 2>/dev/null || echo "")
     if [[ -n "${submodule_branch}" ]]; then
       echo "* Creating branch '${submodule_branch}' for version generation"
-      git checkout -b "${submodule_branch}" 2>/dev/null || echo "* Branch '${submodule_branch}' already exists or cannot be created"
+      ${GIT} checkout -b "${submodule_branch}" 2>/dev/null || echo "* Branch '${submodule_branch}' already exists or cannot be created"
     fi
   fi
 
@@ -51,14 +54,23 @@ while IFS=, read -r git_url build_cmd build_dir; do
 
   echo "* Building binaries from ${git_url}"
   echo "* Executing build command: ${build_cmd}"
-  ${build_cmd} || return_submodule_error
-  echo "* Moving binaries from repo directory <repo>/${build_dir}/ to: ./${BUILD_DIR}/"
-  if [[ -f "${build_dir}" ]]; then
-    mv "${build_dir}" "${SCRIPT_DIR}/../${BUILD_DIR}"
-  else
-  mv "${build_dir}"/* "${SCRIPT_DIR}/../${BUILD_DIR}"
-  fi
+  (
+    cd "${git_dir}" || return_submodule_error
+    ${build_cmd} || return_submodule_error
+    echo "* Moving binaries from repo directory <repo>/${build_dir}/ to: ./${BUILD_DIR}/"
+    if [[ -f "${build_dir}" ]]; then
+      mv "${build_dir}" "${SCRIPT_DIR}/../${BUILD_DIR}"
+    elif [[ -d "${build_dir}" ]]; then
+      if compgen -G "${build_dir}/*" >/dev/null; then
+        mv "${build_dir}"/* "${SCRIPT_DIR}/../${BUILD_DIR}"
+      else
+        echo "* Error: no files to move from ${build_dir}"
+        exit 1
+      fi
+    else
+      echo "* Error: build directory ${build_dir} does not exist."
+      exit 1
+    fi
+  )
   previous_branch=${submodule_branch}
-
-  cd - 1>/dev/null
 done <"${SCRIPT_DIR}/${BUILD_INPUT}"
