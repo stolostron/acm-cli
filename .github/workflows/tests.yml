@@ -43,7 +43,7 @@ jobs:
           echo "=== Validate Dockerfiles"
           if ! diff \
           <(sed -E '/ AS builder-rhel8$/d; s/^(FROM ).*([0-9]+\.[0-9]+).*( AS builder)$/\1\2\3/g; s/--chown=1001:1001 //' Dockerfile) \
-          <(sed -E '/ AS builder-rhel8$/d; s/^(FROM ).*([0-9]+\.[0-9]+).*( AS builder)$/\1\2\3/g;' Dockerfile.rhtap); then
+          <(sed -E '/ AS builder-rhel8$/d; s/^(FROM ).*([0-9]+\.[0-9]+).*( AS builder)$/\1\2\3/g; s/GOEXPERIMENT=strictfipsruntime //' Dockerfile.rhtap); then
             echo "  ❌ Dockerfile and Dockerfile.rhtap are not in sync"
             exit_code=1
           else
