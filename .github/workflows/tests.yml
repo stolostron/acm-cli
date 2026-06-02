@@ -35,6 +35,8 @@ jobs:
           make gosec-scan
 
       - name: Validate build data
+        env:
+          VERSION_REF: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.ref || github.ref_name }}
         run: |
           exit_code=0
 
@@ -43,17 +45,23 @@ jobs:
           <(sed -E 's/^(FROM ).*([0-9]+\.[0-9]+).*( AS builder(-rhel8)?)$/\1\2\3/g; s/--chown=1001:1001 //' Dockerfile) \
           <(sed -E 's/^(FROM ).*([0-9]+\.[0-9]+).*( AS builder(-rhel8)?)$/\1\2\3/g;' Dockerfile.rhtap); then
             echo "  ❌ Dockerfile and Dockerfile.rhtap are not in sync"
-            error_code=1
+            exit_code=1
           else
             echo "  ✅ Dockerfile and Dockerfile.rhtap are in sync"
           fi
 
           echo "=== Validate git submodule branches"
-          version="${{ github.event_name == 'pull_request' && github.event.pull_request.base.ref || github.ref_name }}"
+          version="${VERSION_REF}"
+          current_version=$(curl -s --fail https://raw.githubusercontent.com/stolostron/governance-policy-framework/refs/heads/main/CURRENT_VERSION | head -n 1)
+          if [[ -z "${current_version}" ]] || ! [[ "${current_version}" =~ ^[0-9]+\.[0-9]+$ ]]; then
+            echo "* error: failed to fetch valid CURRENT_VERSION (got: '${current_version}')"
+            exit 1
+          fi
+
           if [[ ${version} =~ release-[0-9]+.[0-9]+ ]]; then
-            version="${version#release-}"
+            version=$(printf "%s\n%s\n" "${version#release-}" "${current_version}" | sort -V | head -n 1)
           else
-            version="$(curl -s --fail https://raw.githubusercontent.com/stolostron/governance-policy-framework/refs/heads/main/CURRENT_VERSION | head -n 1)"
+            version="${current_version}"
           fi
 
           for submodule in policy-cli policy-generator-plugin; do
