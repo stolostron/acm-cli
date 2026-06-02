@@ -21,8 +21,6 @@ RUN BUILD_INPUT=cli_map_rhel8.csv make sync-build-package
 
 FROM registry.access.redhat.com/ubi9/ubi-minimal:latest
 
-ARG ACM_VERSION
-
 ENV REPO_PATH=/go/src/github.com/stolostron/acm-cli
 
 RUN microdnf install -y tar gzip
@@ -51,4 +49,3 @@ LABEL io.k8s.display-name="ACM CLI downloads"
 LABEL io.k8s.description="Serve ACM CLI binaries through the Red Hat Openshift console"
 LABEL com.redhat.component="acm-cli-container"
 LABEL io.openshift.tags="data,images"
-LABEL cpe="cpe:/a:redhat:acm:${ACM_VERSION}::el9"
