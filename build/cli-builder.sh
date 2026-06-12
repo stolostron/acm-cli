@@ -52,13 +52,6 @@ while IFS=, read -r git_url build_cmd build_dir; do
     exit 1
   fi
 
-  echo "* Cleaning file changes in the repo"
-  ${GIT} status --short
-  ${GIT} restore .
-  ${GIT} clean -fd
-  echo "* File changes after cleaning:"
-  ${GIT} status --short
-
   echo "* Building binaries from ${git_url}"
   echo "* Executing build command: ${build_cmd}"
   (
