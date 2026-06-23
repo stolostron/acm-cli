@@ -63,6 +63,6 @@ while IFS=, read -r git_url build_cmd build_dir; do
     else
       mv "${build_dir}"/* "${SCRIPT_DIR}/../${BUILD_DIR}"
     fi
-    previous_branch=${submodule_branch}
   )
+  previous_branch=${submodule_branch}
 done <"${SCRIPT_DIR}/${BUILD_INPUT}"
