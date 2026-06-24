@@ -6,7 +6,7 @@ WORKDIR ${REPO_PATH}
 
 # Build the HTTP server binary
 COPY . .
-RUN make build
+RUN CGO_ENABLED=1 make build
 
 # Fetch and package imported binaries
 RUN make sync-build-package
@@ -37,3 +37,4 @@ LABEL io.k8s.display-name="ACM CLI downloads"
 LABEL io.k8s.description="Serve ACM CLI binaries through the Red Hat Openshift console"
 LABEL com.redhat.component="acm-cli-container"
 LABEL io.openshift.tags="data,images"
+LABEL url="https://github.com/stolostron/acm-cli"
