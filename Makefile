@@ -50,7 +50,7 @@ $(BUILD_DIR):
 
 .PHONY: build
 build:
-	CGO_ENABLED=1 go build -mod=readonly -o $(BUILD_DIR)/acm-cli-server ./server/main.go
+	CGO_ENABLED=1 go build -mod=readonly -o $(BUILD_DIR)/acm-cli-server ./server
 
 .PHONY: build-image
 build-image:
@@ -110,6 +110,10 @@ lint:
 # test section
 ############################################################
 CLUSTER_NAME = acm-cli
+
+.PHONY: unit-test
+unit-test:
+	go test ./server/... -v
 
 .PHONY: kind-bootstrap-cluster
 kind-bootstrap-cluster: KIND_ARGS = --config test/kind_config.yaml

@@ -65,7 +65,12 @@ spec:
           secret:
             secretName: acm-cli-cert
       {{- end }}
+      {{- if .Values.isOpenshift }}
+      serviceAccountName: acm-cli-downloads
+      automountServiceAccountToken: true
+      {{- else }}
       automountServiceAccountToken: false
+      {{- end }}
       hostNetwork: false
       hostPID: false
       hostIPC: false
