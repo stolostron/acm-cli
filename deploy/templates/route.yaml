@@ -8,10 +8,10 @@ metadata:
 spec:
   host: "acm-cli-downloads.{{ .Values.ingress.domain }}"
   port:
-    targetPort: https-8443
+    targetPort: downloads
   tls:
     insecureEdgeTerminationPolicy: Redirect
-    termination: reencrypt
+    termination: edge
   to:
     kind: Service
     name: acm-cli-downloads

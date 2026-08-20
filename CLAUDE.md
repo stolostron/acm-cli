@@ -11,9 +11,9 @@ The `acm-cli` repository provides a collection of binaries for managing Red Hat 
 ### Core Components
 
 1. **HTTP File Server** (`server/main.go`)
-   - Simple Go web server that serves static files from `/acm-cli` directory
-   - Supports both HTTP (port 8080) and HTTPS (port 8443) modes
-   - TLS certificates expected at `/var/run/acm-cli-cert/` when using `--secure` flag
+   - Simple Go web server that serves static files from `/acm-cli` directory over plain HTTP on port 8080
+   - On OpenShift, the Route terminates TLS at the edge (`termination: edge`), so the server itself never
+     handles certificates; on generic Kubernetes it's exposed directly over HTTP via a NodePort
    - Main entry point for the container
 
 2. **Git Submodules** (`external/`)
