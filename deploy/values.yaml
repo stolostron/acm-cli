@@ -3,7 +3,9 @@
 # Declare variables to be passed into your templates.
 
 # For Openshift clusters, setting to "true" deploys the Route and
-# ConsoleCLIDownload objects and sets up certificates for delivery over HTTPS
+# ConsoleCLIDownload objects. The Route terminates TLS at the edge, so
+# clients reach the server over HTTPS while the server itself only ever
+# serves plain HTTP.
 isOpenshift: false
 
 # ConsoleCLIDownload Settings
