@@ -1,6 +1,6 @@
 ARG ACM_VERSION
 
-FROM brew.registry.redhat.io/rh-osbs/openshift-golang-builder:rhel_9_1.26 AS builder
+FROM registry.redhat.io/openshift/golang-builder:golang-builder-v1.26-rhel9 AS builder
 
 ENV REPO_PATH=/go/src/github.com/stolostron/acm-cli
 WORKDIR ${REPO_PATH}
